@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const port = process.env.port || 5000;
 
@@ -28,19 +28,59 @@ async function run() {
     const hourseToyesCollection = client.db("toyesHouse").collection("houresToyes");
     const catsToyesCollection = client.db("toyesHouse").collection("toyes");
     const taddyCollection = client.db("toyesHouse").collection("tadyBear");
+    const allCollection = client.db("toyesHouse").collection("allToyes");
+    const customarReview = client.db("toyesHouse").collection("review");
 
     app.get('/horses',async(req,res)=>{
       const result = await hourseToyesCollection.find().toArray()
       res.send(result)
     })
 
+    app.get('/horses/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await hourseToyesCollection.findOne(query)
+      res.send(result)
+    })
+   
     app.get('/cats',async(req,res)=>{
       const result = await catsToyesCollection.find().toArray()
       res.send(result)
     })
 
+    app.get('/cats/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await catsToyesCollection.findOne(query)
+      res.send(result)
+    })
+
     app.get('/tadyBear',async(req,res)=>{
       const result = await taddyCollection.find().toArray()
+      res.send(result)
+    })
+
+    app.get('/tadyBear/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await taddyCollection.findOne(query)
+      res.send(result)
+    })
+
+    app.get('/allToyes',async(req,res)=>{
+      const result = await allCollection.find().toArray()
+      res.send(result)
+    })
+
+    app.get('/allToyes/:id',async(req,res)=>{
+      const id = req.params.id;
+      const quary = {_id:new ObjectId(id)}
+      const result = await allCollection.findOne(quary)
+      res.send(result)
+    })
+
+    app.get('/review',async(req,res)=>{
+      const result = await customarReview.find().toArray()
       res.send(result)
     })
 
