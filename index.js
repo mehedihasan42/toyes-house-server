@@ -23,7 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const hourseToyesCollection = client.db("toyesHouse").collection("houresToyes");
     const catsToyesCollection = client.db("toyesHouse").collection("toyes");
@@ -97,6 +97,7 @@ run().catch(console.dir);
 
 app.get('/',(req,res)=>{
     console.log('All animal toyes are here')
+    res.send('All toyes are here')
 })
 
 app.listen(port,()=>{
