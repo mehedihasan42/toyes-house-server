@@ -30,43 +30,46 @@ async function run() {
     const taddyCollection = client.db("toyesHouse").collection("tadyBear");
     const allCollection = client.db("toyesHouse").collection("allToyes");
     const customarReview = client.db("toyesHouse").collection("review");
+    const addedProduct = client.db("toyesHouse").collection("adding");
 
     app.get('/horses',async(req,res)=>{
       const result = await hourseToyesCollection.find().toArray()
       res.send(result)
     })
 
+    
     app.get('/horses/:id',async(req,res)=>{
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
       const result = await hourseToyesCollection.findOne(query)
       res.send(result)
     })
-   
+    
     app.get('/cats',async(req,res)=>{
       const result = await catsToyesCollection.find().toArray()
       res.send(result)
     })
-
+    
     app.get('/cats/:id',async(req,res)=>{
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await catsToyesCollection.findOne(query)
       res.send(result)
     })
-
+    
     app.get('/tadyBear',async(req,res)=>{
       const result = await taddyCollection.find().toArray()
       res.send(result)
     })
-
+    
     app.get('/tadyBear/:id',async(req,res)=>{
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
       const result = await taddyCollection.findOne(query)
       res.send(result)
     })
-
+    
+   
     app.get('/allToyes',async(req,res)=>{
       const result = await allCollection.find().toArray()
       res.send(result)
@@ -81,6 +84,26 @@ async function run() {
 
     app.get('/review',async(req,res)=>{
       const result = await customarReview.find().toArray()
+      res.send(result)
+    })
+
+     app.post('/adding',async(req,res)=>{
+       const adding = req.body;
+       console.log(adding)
+
+       const result = await addedProduct.insertOne(adding)
+       res.send(result)
+    }) 
+
+    app.get('/adding',async(req,res)=>{
+      console.log(req.query.email)
+      let query = {}
+
+      if(req.query?.email){
+        query = { email:req.query?.email }
+      }
+
+      const result = await addedProduct.find(query).toArray()
       res.send(result)
     })
 
