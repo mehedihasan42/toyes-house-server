@@ -107,6 +107,26 @@ async function run() {
       res.send(result)
     })
 
+    app.patch('/adding/:id',async(req,res)=>{
+      const id = req.params.id;
+      const filter = {_id:new ObjectId(id)}
+      const updating = req.body;
+      console.log(updating)
+
+      const updateDoc = {
+        $set: {
+          status: updating.status
+        },
+      };
+    })
+
+    app.delete('/adding/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await addedProduct.deleteOne(query)
+      res.send(result)
+    })
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
